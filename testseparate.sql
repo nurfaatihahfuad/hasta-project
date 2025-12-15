@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Dec 15, 2025 at 11:22 AM
+-- Generation Time: Dec 15, 2025 at 05:54 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,6 +31,33 @@ CREATE TABLE `admin` (
   `userID` bigint(20) NOT NULL,
   `adminDept` enum('finance','IT') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bookings`
+--
+
+CREATE TABLE `bookings` (
+  `bookingID` int(11) NOT NULL,
+  `userID` bigint(20) DEFAULT NULL,
+  `vehicleID` int(11) DEFAULT NULL,
+  `pickup_date` date DEFAULT NULL,
+  `return_date` date DEFAULT NULL,
+  `total_price` decimal(10,2) DEFAULT NULL,
+  `status` enum('pending','confirmed','cancelled','completed') DEFAULT 'pending',
+  `notes` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bookings`
+--
+
+INSERT INTO `bookings` (`bookingID`, `userID`, `vehicleID`, `pickup_date`, `return_date`, `total_price`, `status`, `notes`, `created_at`, `updated_at`) VALUES
+(1, 6, 3, '2025-12-17', '2025-12-20', 320.00, 'pending', NULL, '2025-12-15 08:39:02', '2025-12-15 08:39:02'),
+(2, 6, 1, '2025-12-17', '2025-12-18', 90.00, 'pending', NULL, '2025-12-15 08:39:36', '2025-12-15 08:39:36');
 
 -- --------------------------------------------------------
 
@@ -184,7 +211,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('jKzcKavNqtVH9TDPHxPr5VwnfkXGTAsGPZuc1IRR', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiTk1pUEVpMWtNNXp4N3FLMWVieXpYSmJuVjRmb0lqa3F6d2laY2tvTyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly8xMjcuMC4wLjE6ODA4MC9yZWdpc3Rlci9jdXN0b21lciI7czo1OiJyb3V0ZSI7czoxNzoiY3VzdG9tZXIucmVnaXN0ZXIiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2O30=', 1765794040);
+('LVvvVAiQXculZxPrgaw3lteZCbUU97GVtuxGtmpV', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoibTh0djh6OVBRcEV0Vmg3S0s0MFFKUjNoZDhlcTIwNmp5cjJXOEtrQiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDA6Imh0dHA6Ly8xMjcuMC4wLjE6ODA4MC9kYXNoYm9hcmQvYm9va2luZ3MiO3M6NToicm91dGUiO3M6MTg6ImRhc2hib2FyZC5ib29raW5ncyI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjY7fQ==', 1765816988),
+('zqvjtx7rJJw1r95dQUlOo82JM3gwA34Q64oZLLXd', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiY09oSGkyeUxGWlNtMFZFdXQ4YkRyZHJIblc3YjVOMkNPV0l4Z1BxRiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODA4MCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Njt9', 1765798983);
 
 -- --------------------------------------------------------
 
@@ -245,17 +273,18 @@ CREATE TABLE `user` (
   `noHP` varchar(15) NOT NULL,
   `email` varchar(100) NOT NULL,
   `noIC` varchar(12) NOT NULL,
-  `userType` enum('customer','admin','staff','') NOT NULL
+  `userType` enum('customer','admin','staff','') NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`userID`, `password`, `name`, `noHP`, `email`, `noIC`, `userType`) VALUES
-(5, '$2y$12$8xl52rCyRr8BlqpHeY4dYuk5Uskf4XW24kb3GvMtJ1XLIZoDo6gcC', 'john cena', '12', 'cjohn@gmail.com', '040323110109', 'customer'),
-(6, '$2y$12$3mYH0Ig2tE3E2g7eXerGeeF62nOKwEFELxaV/8Xnq.4beg6fnjDW6', 'syahla', '122', 'elly@gmail.com', '040323110103', 'customer'),
-(7, '$2y$12$u1y2wD5WWBnEg7Nfdlu8Nu1y5XjHOh2SDuKs1JE8ZTY.guc/9RLRW', 'lalilsa', '1234567899', 'lil@gmi.com', '040323110101', 'customer');
+INSERT INTO `user` (`userID`, `password`, `name`, `noHP`, `email`, `noIC`, `userType`, `remember_token`) VALUES
+(5, '$2y$12$8xl52rCyRr8BlqpHeY4dYuk5Uskf4XW24kb3GvMtJ1XLIZoDo6gcC', 'john cena', '12', 'cjohn@gmail.com', '040323110109', 'customer', NULL),
+(6, '$2y$12$3mYH0Ig2tE3E2g7eXerGeeF62nOKwEFELxaV/8Xnq.4beg6fnjDW6', 'syahla', '122', 'elly@gmail.com', '040323110103', 'customer', NULL),
+(7, '$2y$12$u1y2wD5WWBnEg7Nfdlu8Nu1y5XjHOh2SDuKs1JE8ZTY.guc/9RLRW', 'lalilsa', '1234567899', 'lil@gmi.com', '040323110101', 'customer', NULL);
 
 -- --------------------------------------------------------
 
@@ -274,6 +303,41 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vehicles`
+--
+
+CREATE TABLE `vehicles` (
+  `vehicleID` int(11) NOT NULL,
+  `brand` varchar(50) DEFAULT NULL,
+  `model` varchar(50) DEFAULT NULL,
+  `year` int(11) DEFAULT NULL,
+  `type` varchar(30) DEFAULT NULL,
+  `seats` int(11) DEFAULT NULL,
+  `price_per_day` decimal(10,2) DEFAULT NULL,
+  `available` tinyint(1) DEFAULT 1,
+  `image_url` varchar(500) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `vehicles`
+--
+
+INSERT INTO `vehicles` (`vehicleID`, `brand`, `model`, `year`, `type`, `seats`, `price_per_day`, `available`, `image_url`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'Toyota', 'Camry', 2022, 'Sedan', 5, 45.00, 1, NULL, 'Comfortable sedan with great fuel economy', '2025-12-15 16:20:01', '2025-12-15 16:20:01'),
+(2, 'Honda', 'CR-V', 2023, 'SUV', 5, 65.00, 1, NULL, 'Spacious SUV with advanced safety features', '2025-12-15 16:20:01', '2025-12-15 16:20:01'),
+(3, 'Ford', 'Explorer', 2022, 'SUV', 7, 80.00, 1, NULL, 'Large family SUV with 7 seats', '2025-12-15 16:20:01', '2025-12-15 16:20:01'),
+(4, 'BMW', 'X5', 2023, 'Luxury SUV', 5, 120.00, 1, NULL, 'Premium luxury SUV with all features', '2025-12-15 16:20:01', '2025-12-15 16:20:01'),
+(5, 'Mercedes', 'C-Class', 2023, 'Luxury Sedan', 5, 110.00, 1, NULL, 'Executive sedan with luxury interior', '2025-12-15 16:20:01', '2025-12-15 16:20:01'),
+(6, 'Toyota', 'Hiace', 2021, 'Van', 12, 90.00, 1, NULL, 'Commercial van for group travel', '2025-12-15 16:20:01', '2025-12-15 16:20:01'),
+(7, 'Hyundai', 'i10', 2022, 'Compact', 4, 35.00, 1, NULL, 'Economical city car', '2025-12-15 16:20:01', '2025-12-15 16:20:01'),
+(8, 'Mazda', 'CX-5', 2023, 'SUV', 5, 70.00, 1, NULL, 'Sporty SUV with great handling', '2025-12-15 16:20:01', '2025-12-15 16:20:01');
+
 --
 -- Indexes for dumped tables
 --
@@ -283,6 +347,14 @@ CREATE TABLE `users` (
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`userID`);
+
+--
+-- Indexes for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD PRIMARY KEY (`bookingID`),
+  ADD KEY `userID` (`userID`),
+  ADD KEY `vehicleID` (`vehicleID`);
 
 --
 -- Indexes for table `cache`
@@ -374,8 +446,20 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
+-- Indexes for table `vehicles`
+--
+ALTER TABLE `vehicles`
+  ADD PRIMARY KEY (`vehicleID`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `bookings`
+--
+ALTER TABLE `bookings`
+  MODIFY `bookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `customer`
@@ -424,6 +508,23 @@ ALTER TABLE `user`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `vehicles`
+--
+ALTER TABLE `vehicles`
+  MODIFY `vehicleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD CONSTRAINT `bookings_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`),
+  ADD CONSTRAINT `bookings_ibfk_2` FOREIGN KEY (`vehicleID`) REFERENCES `vehicles` (`vehicleID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
