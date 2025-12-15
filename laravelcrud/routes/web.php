@@ -1,20 +1,39 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+// add controller
+use App\Http\Controllers\CustomerRegistrationController;
+use App\Http\Controllers\LoginController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Customer Registration Routes
+Route::get('/register/customer', [CustomerRegistrationController::class, 'create'])
+    ->name('customer.register');
+    //->middleware('guest');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+Route::post('/register/customer', [CustomerRegistrationController::class, 'store'])
+    ->name('customer.register.store');
 
-require __DIR__.'/auth.php';
+Route::get('/registration/success', [CustomerRegistrationController::class, 'success'])
+    ->name('registration.success');
+    //->middleware('auth');
+
+// Customer Dashboard
+Route::get('/customer/dashboard', function () {
+    return view('customers.dashboard');
+})->name('customer.dashboard')->middleware(['auth', 'customer']);
+
+// Customer Login Routes
+Route::get('/login', [LoginController::class, 'showLoginForm'])
+    ->name('login');
+    
+Route::post('/login', [LoginController::class, 'login'])
+    ->name('login.submit');
+    
+Route::post('/logout', [LoginController::class, 'logout'])
+    ->name('logout');
+
+
