@@ -45,8 +45,12 @@ class LoginController extends Controller
             }
             
             // Redirect to customer dashboard
-            return redirect()->route('customer.dashboard')
-                ->with('success', 'Login successful! Welcome back, ' . $user->name);
+            /*return redirect()->route('customer.dashboard')
+                ->with('success', 'Login successful! Welcome back, ' . $user->name);*/
+                // Instead of redirecting to success page, redirect to home with message
+            return redirect('/')
+                ->with('login_success', true)
+                ->with('user_name', $user->name);
 
         }
 

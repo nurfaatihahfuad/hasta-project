@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 // add controller
 use App\Http\Controllers\CustomerRegistrationController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -35,5 +36,18 @@ Route::post('/login', [LoginController::class, 'login'])
     
 Route::post('/logout', [LoginController::class, 'logout'])
     ->name('logout');
+
+// Dashboard Routes
+Route::prefix('dashboard')->name('dashboard.')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('index');
+    Route::get('/vehicles', [DashboardController::class, 'vehicles'])->name('vehicles');
+    Route::get('/vehicle/{id}', [DashboardController::class, 'showVehicle'])->name('vehicle.show');
+    Route::get('/vehicle/{id}/book', [DashboardController::class, 'bookVehicle'])->name('vehicle.book');
+    Route::post('/vehicle/{id}/book', [DashboardController::class, 'storeBooking'])->name('booking.store');
+    Route::get('/bookings', [DashboardController::class, 'bookings'])->name('bookings');
+    Route::post('/booking/{id}/cancel', [DashboardController::class, 'cancelBooking'])->name('booking.cancel');
+    Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
+    Route::post('/profile', [DashboardController::class, 'updateProfile'])->name('profile.update');
+});
 
 
