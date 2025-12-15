@@ -17,10 +17,17 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+
+    // declare primary key (cus by default 'id')
+    protected $primaryKey = 'userID';
+    protected $table = 'user';
+    public $incrementing = true; // by default true, better to set explicitly
+    public $timestamps = false;
+
+    // declare attributes 
+    // primary key exists in $fillable by default, no need to add it again
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'password', 'name', 'noHP', 'email', 'noIC', 'userType'
     ];
 
     /**
@@ -32,6 +39,38 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    // relationship with Customer
+    public function customer()
+    {
+        return $this->hasOne(Customer::class, 'userID', 'userID');
+    }
+
+    // Direct relationship with StudentCustomer
+    public function studentCustomer()
+    {
+        return $this->hasOne(StudentCustomer::class, 'userID', 'userID');
+    }
+    
+    // Direct relationship with StaffCustomer  
+    public function staffCustomer()
+    {
+        return $this->hasOne(StaffCustomer::class, 'userID', 'userID');
+    }
+
+    // Helper to get the right type
+    public function getSpecificCustomerAttribute()
+    {
+        if (!$this->customer) return null;
+        
+        if ($this->customer->customerType === 'student') {
+            return $this->studentCustomer;
+        } elseif ($this->customer->customerType === 'staff') {
+            return $this->staffCustomer;
+        }
+        
+        return null;
+    }
 
     /**
      * Get the attributes that should be cast.
