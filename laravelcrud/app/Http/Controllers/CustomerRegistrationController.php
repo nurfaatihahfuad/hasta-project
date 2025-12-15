@@ -144,8 +144,7 @@ class CustomerRegistrationController extends Controller
             auth()->login($user);
 
             // Redirect to success page
-            return redirect()->route('customer.dashboard')
-                ->with('success', 'Registration successful! Welcome, ' . $user->name);
+            return redirect()->route('dashboard.index')->with('success', 'Login successful!');
 
         } catch (\Exception $e) {
             // Rollback transaction on error
