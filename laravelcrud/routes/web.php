@@ -22,6 +22,11 @@ Route::get('/registration/success', [CustomerRegistrationController::class, 'suc
     ->name('registration.success')
     ->middleware('auth');
 
+// Customer Dashboard
+/*Route::get('/customer/dashboard', function () {
+    return view('customers.dashboard');
+})->name('customer.dashboard')->middleware(['auth', 'customer']);*/
+
 // Customer Login Routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])
     ->name('login');

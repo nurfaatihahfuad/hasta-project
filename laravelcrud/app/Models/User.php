@@ -84,4 +84,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    // Add this method to User model
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'userID');
+    }
 }
