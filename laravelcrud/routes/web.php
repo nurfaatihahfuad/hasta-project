@@ -12,20 +12,15 @@ Route::get('/', function () {
 
 // Customer Registration Routes
 Route::get('/register/customer', [CustomerRegistrationController::class, 'create'])
-    ->name('customer.register');
-    //->middleware('guest');
+    ->name('customer.register')
+    ->middleware('guest');
 
 Route::post('/register/customer', [CustomerRegistrationController::class, 'store'])
     ->name('customer.register.store');
 
 Route::get('/registration/success', [CustomerRegistrationController::class, 'success'])
-    ->name('registration.success');
-    //->middleware('auth');
-
-// Customer Dashboard
-Route::get('/customer/dashboard', function () {
-    return view('customers.dashboard');
-})->name('customer.dashboard')->middleware(['auth', 'customer']);
+    ->name('registration.success')
+    ->middleware('auth');
 
 // Customer Login Routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])
